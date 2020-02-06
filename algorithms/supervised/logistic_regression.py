@@ -1,5 +1,5 @@
 '''logistic_regression.py: An implementation of logistic regression with L2-regularization and stochastic gradient descent optimization.'''
-from math import exp
+from math import exp, log
 
 class logistic_regression:
 
@@ -44,6 +44,7 @@ class logistic_regression:
         dthetas = [0 for i in range(len(x[0])+1)]
         for t in range(0, len(dthetas)):
             error = 0
+            loss  = 0
             for d in range(len(x)):
                 datax = x[d]
                 datay = y[d]
@@ -51,6 +52,11 @@ class logistic_regression:
                     error +=  (self.h(datax)-datay)
                 elif t > 0:
                     error += (self.h(datax)-datay)*datax[t-1]
+                try:
+                    loss += datay*log(self.h(datax)) + (1-datay)*log(1-self.h(datax))
+                except ValueError:
+                    loss = 0
             dthetas[t] = -1*error*alpha*(1/len(x))
-        return (dthetas, 0)
+            loss /= -1*len(x)
+        return (dthetas, loss)
              

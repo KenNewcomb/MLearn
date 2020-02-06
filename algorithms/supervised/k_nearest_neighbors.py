@@ -1,4 +1,4 @@
-'''k_nearest_neighbors_classifier.py: A class representing the K-Nearest Neighbors (KNN) algorithm, applied to classification.'''
+'''k_nearest_neighbors.py: A class representing the K-Nearest Neighbors (KNN) algorithm.'''
 import math
 import statistics
 from statistics import mode, mean
@@ -45,6 +45,7 @@ class classifier():
             self.predict(x)
 
 class regressor():
+
     def __init__(self, k):
         self.k = k
         self.data = []
