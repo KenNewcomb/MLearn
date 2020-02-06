@@ -8,19 +8,25 @@ class logistic_regression:
 
     ## fit/predict f(x) ##
 
-    def fit(self, x, y, epochs=10, alpha=0.01):
+    def fit(self, x, y, epochs=100, alpha=0.1):
         # Initialize theta vector
-        self.theta = [0 for i in range(len(x[0])+1)]
+        self.theta = [1 for i in range(len(x[0])+1)]
 
         for epoch in range(0, epochs):
             dthetas, loss = self.sgd(x, y, alpha)
             print("Epoch: {}, Loss: {}".format(epoch, loss))
+            print(self.theta)
+            for theta in range(len(self.theta)):
+                self.theta[theta] += dthetas[theta]
         
-        #for point in zip(x, y):
-        pass
 
     def predict(self, x):
-        pass
+        prob = self.h(x)
+        print("Probability:", prob)
+        if prob > 0.5:
+            print("Predicted Class: 1")
+        elif prob < 0.5:
+            print("Predicted Class: 0")
 
     ## auxillary f(x) ##
 
@@ -34,13 +40,17 @@ class logistic_regression:
         return 1/(1+exp(-x))
 
     def sgd(self, x, y, alpha):
-        '''Stochastic gradient descent.'''
+        '''Batch stochastic gradient descent algorithm.'''
         dthetas = [0 for i in range(len(x[0])+1)]
-        for t in range(len(dthetas)):
+        for t in range(0, len(dthetas)):
             error = 0
-            for data in zip(x, y):
-                print(data)
-                error += (self.h(data[0])-data[1])*data[0][t-1]
+            for d in range(len(x)):
+                datax = x[d]
+                datay = y[d]
+                if t == 0:
+                    error +=  (self.h(datax)-datay)
+                elif t > 0:
+                    error += (self.h(datax)-datay)*datax[t-1]
             dthetas[t] = -1*error*alpha*(1/len(x))
         return (dthetas, 0)
              

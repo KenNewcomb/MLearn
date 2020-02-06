@@ -9,8 +9,8 @@ knn.fit(x, y)
 knn.predict((0, 5))
 
 log = logistic_regression()
-x = ((0, 1), (1,1), (0, 2))
-y = (0, 1, 0)
+x = ((0, 1), (4, 1), (0, 2), (0, 3), (0, 4), (3, 0), (9, 0))
+y = (0, 1, 0, 0, 0, 1, 1)
 log.fit(x, y)
-log.predict((0, 5))
+log.predict((1,  0))
 
