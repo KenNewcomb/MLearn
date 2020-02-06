@@ -73,13 +73,6 @@ class regressor():
         for point in distances:
             print("{0:.2f}      \t{1}".format(point[0], point[1]))
 
-        try:
-            prediction = mean([i[1] for i in distances])
-            print("Prediced class: {}".format(prediction))
-            return prediction
-
-        # If there is more than one mode
-        except statistics.StatisticsError:
-            print("Tie. Rerunning with k-1")
-            self.k -= 1
-            self.predict(x)
+        prediction = mean([i[1] for i in distances])
+        print("Predicted class: {}".format(prediction))
+        return prediction
