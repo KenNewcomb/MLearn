@@ -75,5 +75,5 @@ class regressor():
             print("{0:.2f}      \t{1}".format(point[0], point[1]))
 
         prediction = mean([i[1] for i in distances])
-        print("Predicted class: {}".format(prediction))
+        print("Prediction: {}".format(prediction))
         return prediction

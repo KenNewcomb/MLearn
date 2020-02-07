@@ -1,5 +1,4 @@
 '''linear_regression.py: An implementation of linear regression with L2-regularization and gradient descent optimization.'''
-
 class linear_regression:
 
     def __init__(self):
@@ -31,13 +30,14 @@ class linear_regression:
             activation += x[p]*self.theta[p+1]
         return activation
 
-    def sgd(self, x, y, alpha):
+    def sgd(self, x, y, alpha, regularizer='l1', lamb=0.1):
         '''Gradient descent algorithm.'''
         dthetas = [0 for i in range(len(x[0])+1)]
         for t in range(0, len(dthetas)):
             error = 0
             loss  = 0
-            for d in range(len(x)):
+            m = len(x) # Number of training examples
+            for d in range(m):
                 datax = x[d]
                 datay = y[d]
                 if t == 0:
@@ -48,13 +48,13 @@ class linear_regression:
                     loss += (self.h(datax) - datay)**2
                 except ValueError:
                     loss = 0
-            dthetas[t] = -1*error*alpha*(1/len(x))
-            loss /= len(x)
+            if not regularizer or t == 0 or lamb == 0:
+                dthetas[t] = error*alpha*(-1/m)
+                loss /= m
+            elif regularizer in ['l2', 'ridge']:
+                dthetas[t] = -1*alpha*((1/m)*error+(lamb/m)*self.theta[t])
+                loss = (1/m)*(loss+lamb*sum([i**2 for i in self.theta]))
+            elif regularizer in ['l1', 'lasso']:
+                dthetas[t] = -1*alpha*((1/m)*error+(lamb/m)*(self.theta[t]/abs(self.theta[t])))
+                loss = (1/m)*(loss+lamb*sum([abs(i) for i in self.theta]))
         return (dthetas, loss)
-
-    def regularization(self, regularizer, lamb = 0.1):
-        if regularizer in ['l2', 'ridge']:
-            pass
-        elif regularizer in ['l1', 'lasso']:
-            pass
-             

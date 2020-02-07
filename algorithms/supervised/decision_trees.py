@@ -19,7 +19,7 @@ class classifier():
     def predict(self, x):
         pass
 
-    ## Helper f(x) ##
+    ## Auxillary f(x) ##
 
     def gini(self):
         pass
