@@ -14,6 +14,7 @@ A collection of classic machine learning algorithms, written in Python.
 - K-Nearest Neighbors (KNN): regressor, classifier [**in progress**]
     - Distance-weighted KNN [**in progress**]
 - Multilayer Perceptron [**planned**]
+- Naive-Bayes
 - Support Vector Machines [**planned**]
 - Ensembles of learners [**planned**]
 

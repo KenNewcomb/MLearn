@@ -39,13 +39,14 @@ class logistic_regression:
     def logistic(self, x):
         return 1/(1+exp(-x))
 
-    def sgd(self, x, y, alpha):
+    def sgd(self, x, y, alpha, regularizer='l1', lamb=0.1):
         '''Gradient descent algorithm.'''
         dthetas = [0 for i in range(len(x[0])+1)]
+        m = len(x)
         for t in range(0, len(dthetas)):
             error = 0
             loss  = 0
-            for d in range(len(x)):
+            for d in range(m):
                 datax = x[d]
                 datay = y[d]
                 if t == 0:
@@ -56,7 +57,15 @@ class logistic_regression:
                     loss += datay*log(self.h(datax)) + (1-datay)*log(1-self.h(datax))
                 except ValueError:
                     loss = 0
-            dthetas[t] = -1*error*alpha*(1/len(x))
-            loss /= -1*len(x)
+            if not regularizer or t == 0 or lamb == 0:
+                dthetas[t] = error*alpha*(-1/m)
+                loss /= m
+            elif regularizer in ['l2', 'ridge']:
+                dthetas[t] = -1*alpha*((1/m)*error+(lamb/m)*self.theta[t])
+                loss = (1/m)*(loss+lamb*sum([i**2 for i in self.theta]))
+            elif regularizer in ['l1', 'lasso']:
+                dthetas[t] = -1*alpha*((1/m)*error+(lamb/m)*(self.theta[t]/abs(self.theta[t])))
+                loss = (1/m)*(loss+lamb*sum([abs(i) for i in self.theta]))
+
         return (dthetas, loss)
              

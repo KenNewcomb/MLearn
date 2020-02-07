@@ -30,13 +30,13 @@ class linear_regression:
             activation += x[p]*self.theta[p+1]
         return activation
 
-    def sgd(self, x, y, alpha, regularizer='l1', lamb=0.1):
+    def sgd(self, x, y, alpha, regularizer='l2', lamb=0.25):
         '''Gradient descent algorithm.'''
         dthetas = [0 for i in range(len(x[0])+1)]
+        m = len(x) # Number of training examples
         for t in range(0, len(dthetas)):
             error = 0
             loss  = 0
-            m = len(x) # Number of training examples
             for d in range(m):
                 datax = x[d]
                 datay = y[d]
