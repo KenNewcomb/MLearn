@@ -1,4 +1,4 @@
-'''linear_regression.py: An implementation of linear regression with L2-regularization and stochastic gradient descent optimization.'''
+'''linear_regression.py: An implementation of linear regression with L2-regularization and gradient descent optimization.'''
 
 class linear_regression:
 
@@ -7,7 +7,7 @@ class linear_regression:
 
     ## fit/predict f(x) ##
 
-    def fit(self, x, y, epochs=100, alpha=0.1):
+    def fit(self, x, y, epochs=100, alpha=0.1, regularization='l2'):
         # Initialize theta vector
         self.theta = [1 for i in range(len(x[0])+1)]
 
@@ -30,9 +30,9 @@ class linear_regression:
         for p in range(len(x)):
             activation += x[p]*self.theta[p+1]
         return activation
-            
+
     def sgd(self, x, y, alpha):
-        '''Batch stochastic gradient descent algorithm.'''
+        '''Gradient descent algorithm.'''
         dthetas = [0 for i in range(len(x[0])+1)]
         for t in range(0, len(dthetas)):
             error = 0
@@ -51,4 +51,10 @@ class linear_regression:
             dthetas[t] = -1*error*alpha*(1/len(x))
             loss /= len(x)
         return (dthetas, loss)
+
+    def regularization(self, regularizer, lamb = 0.1):
+        if regularizer in ['l2', 'ridge']:
+            pass
+        elif regularizer in ['l1', 'lasso']:
+            pass
              

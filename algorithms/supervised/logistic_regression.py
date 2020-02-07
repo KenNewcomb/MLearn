@@ -1,4 +1,4 @@
-'''logistic_regression.py: An implementation of logistic regression with L2-regularization and stochastic gradient descent optimization.'''
+'''logistic_regression.py: An implementation of logistic regression with L2-regularization and gradient descent optimization.'''
 from math import exp, log
 
 class logistic_regression:
@@ -40,7 +40,7 @@ class logistic_regression:
         return 1/(1+exp(-x))
 
     def sgd(self, x, y, alpha):
-        '''Batch stochastic gradient descent algorithm.'''
+        '''Gradient descent algorithm.'''
         dthetas = [0 for i in range(len(x[0])+1)]
         for t in range(0, len(dthetas)):
             error = 0
