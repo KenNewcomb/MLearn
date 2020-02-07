@@ -16,7 +16,7 @@ from algorithms.supervised.linear_regression import linear_regression
 #log.predict((4,  1))
 
 lin = linear_regression()
-x = ((0, 1), (4, 1), (0, 2), (0, 3), (0, 4), (3, 0), (9, 0), (1, 2), (9,7))
+x = ((0, 1, 1), (4, 1, 1), (0, 2, 1), (0, 3, 1), (0, 4, 1), (3, 0, 1), (9, 0, 1), (1, 2, 1), (9,7, 1))
 y = (0, 1, 0, 0, 0, 1, 1, 0, 1)
 lin.fit(x, y, epochs=10000000, alpha=0.00001)
 lin.predict((4, 1))

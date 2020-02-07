@@ -1,14 +1,15 @@
-# KenLearn
+# MLearn
 A collection of classic machine learning algorithms, written in Python.
 
 ## Supported Algorithms
 
 ### Supervised Learning
+- Decision Trees
+- Linear Regression
+- Logistic Regression 
 - K-Nearest Neighbors (KNN): regressor, classifier
-- Logistic Regression
-- Linear Regression (in development)
-- Decision Trees (in development)
-- Multilayer Perceptron (in development)
+- Multilayer Perceptron
+- Support Vector Machines
 
 ### Unsupervised Learning
 - K-Means (in development)
