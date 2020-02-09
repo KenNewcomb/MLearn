@@ -9,9 +9,7 @@ class classifier():
         numfeatures = len(x[0])
         depth = 0
         while depth <= maxdepth:
-        # Search (feature, splitval) space for split that minimizes impurity.
-            for feature in range(numfeatures):
-                
+            # 1) Generate splits (feature, splitval)
 
 
         pass

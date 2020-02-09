@@ -35,26 +35,26 @@ class linear_regression:
         dthetas = [0 for i in range(len(x[0])+1)]
         m = len(x) # Number of training examples
         for t in range(0, len(dthetas)):
-            error = 0
+            grad_t = 0
             loss  = 0
             for d in range(m):
                 datax = x[d]
                 datay = y[d]
                 if t == 0:
-                    error +=  (self.h(datax)-datay)
+                    grad_t +=  (self.h(datax)-datay)
                 elif t > 0:
-                    error += (self.h(datax)-datay)*datax[t-1]
+                    grad_t += (self.h(datax)-datay)*datax[t-1]
                 try:
                     loss += (self.h(datax) - datay)**2
                 except ValueError:
                     loss = 0
             if not regularizer or t == 0 or lamb == 0:
-                dthetas[t] = error*alpha*(-1/m)
+                dthetas[t] = grad_t*alpha*(-1/m)
                 loss /= m
             elif regularizer in ['l2', 'ridge']:
-                dthetas[t] = -1*alpha*((1/m)*error+(lamb/m)*self.theta[t])
+                dthetas[t] = -1*alpha*((1/m)*grad_t+(lamb/m)*self.theta[t])
                 loss = (1/m)*(loss+lamb*sum([i**2 for i in self.theta]))
             elif regularizer in ['l1', 'lasso']:
-                dthetas[t] = -1*alpha*((1/m)*error+(lamb/m)*(self.theta[t]/abs(self.theta[t])))
+                dthetas[t] = -1*alpha*((1/m)*grad_t+(lamb/m)*(self.theta[t]/abs(self.theta[t])))
                 loss = (1/m)*(loss+lamb*sum([abs(i) for i in self.theta]))
         return (dthetas, loss)
