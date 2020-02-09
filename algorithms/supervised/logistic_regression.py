@@ -1,5 +1,6 @@
 '''logistic_regression.py: An implementation of logistic regression with L2-regularization and gradient descent optimization.'''
 from math import exp, log
+from tqdm import tqdm
 
 class logistic_regression:
 
@@ -43,7 +44,7 @@ class logistic_regression:
         '''Gradient descent algorithm.'''
         dthetas = [0 for i in range(len(x[0])+1)]
         m = len(x)
-        for t in range(0, len(dthetas)):
+        for t in tqdm(range(0, len(dthetas))):
             grad_t = 0
             loss  = 0
             for d in range(m):
@@ -66,6 +67,5 @@ class logistic_regression:
             elif regularizer in ['l1', 'lasso']:
                 dthetas[t] = -1*alpha*((1/m)*grad_t+(lamb/m)*(self.theta[t]/abs(self.theta[t])))
                 loss = (1/m)*(loss+lamb*sum([abs(i) for i in self.theta]))
-
         return (dthetas, loss)
              
