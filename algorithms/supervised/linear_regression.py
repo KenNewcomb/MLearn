@@ -1,5 +1,6 @@
 '''linear_regression.py: An implementation of linear regression with L2-regularization and gradient descent optimization.'''
 import numpy as np
+from time import sleep
 
 class linear_regression:
 
@@ -8,7 +9,7 @@ class linear_regression:
 
     ## fit/predict f(X) ##
 
-    def fit(self, X, y, epochs=100, alpha=0.1, regularization='l2'):
+    def fit(self, X, y, epochs=100, alpha=0.1):
         # Initialize theta, X, y numpy arrays.
         self.theta = np.ones(len(X[0]) + 1)
         X = np.asarray(X)

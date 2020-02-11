@@ -18,4 +18,4 @@ def load_data():
 
     print("Data loaded successfully.")
     
-    return X_train, y_train
+    return X_train[:50], y_train[:50]
