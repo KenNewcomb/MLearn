@@ -9,19 +9,23 @@ class linear_regression:
 
     ## fit/predict f(X) ##
 
-    def fit(self, X, y, epochs=100, alpha=0.1):
+    def fit(self, X, y, optimizer='normal', epochs=100, alpha=0.1):
         # Initialize theta, X, y numpy arrays.
         self.theta = np.ones(len(X[0]) + 1)
         X = np.asarray(X)
         X = np.insert(X, 0, 1, axis=1)
         y = np.asarray(y)
 
-        for epoch in range(0, epochs):
-            dthetas, loss = self.sgd(X, y, alpha)
-            print("Epoch: {}, Loss: {}".format(epoch, loss))
+        if optimizer == 'sgd':
+            for epoch in range(0, epochs):
+                dthetas, loss = self.sgd(X, y, alpha)
+                print("Epoch: {}, Loss: {}".format(epoch, loss))
+                print(self.theta)
+                for theta in range(len(self.theta)):
+                    self.theta[theta] += dthetas[theta]
+        elif optimizer == 'normal':
+            self.theta = self.normal(X, y)
             print(self.theta)
-            for theta in range(len(self.theta)):
-                self.theta[theta] += dthetas[theta]
         
 
     def predict(self, X):
@@ -30,7 +34,7 @@ class linear_regression:
         prediction = self.h(X)
         print("Prediction", prediction)
 
-    ## auXillary f(X) ##
+    ## auxillary f(X) ##
 
     def h(self, X):
         """Produces linear regression hypothesis function, h(X) = theta0*X0 + theta1*X1 + theta2*X2..."""
@@ -54,3 +58,7 @@ class linear_regression:
                 dthetas[t] = -alpha*(grad_t+lamb*(self.theta[t]/abs(self.theta[t])))
                 loss = loss+lamb*sum([abs(i) for i in self.theta])
         return (dthetas, loss)
+
+    def normal(self, X, y):
+        """Solves the linear ordinary least squares problem by the "normal equation" method."""
+        return np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(X), X)), np.transpose(X)), y)
