@@ -20,7 +20,5 @@ from datasets.MNIST import MNIST
 lin = linear_regression()
 X = ((0, 1, 1), (4, 1, 1), (0, 2, 1), (0, 3, 1), (0, 4, 1), (3, 0, 1), (9, 0, 1), (1, 2, 1), (9,7, 1))
 y = (0, 1, 0, 0, 0, 1, 1, 0, 1)
-X = ((0,), (1,), (2,), (3,))
-y = (0, 1, 2, 4)
 lin.fit(X, y, optimizer='normal')
-lin.predict(1.5)
+lin.predict((0, 1, 1))

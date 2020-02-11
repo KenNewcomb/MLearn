@@ -1,4 +1,4 @@
-'''linear_regression.py: An implementation of linear regression with L2-regularization and gradient descent optimization.'''
+'''linear_regression.py: An implementation of regularized linear regression.'''
 import numpy as np
 from time import sleep
 
@@ -18,6 +18,7 @@ class linear_regression:
 
         if optimizer == 'sgd':
             for epoch in range(0, epochs):
+                sleep(1)
                 dthetas, loss = self.sgd(X, y, alpha)
                 print("Epoch: {}, Loss: {}".format(epoch, loss))
                 print(self.theta)
@@ -49,6 +50,7 @@ class linear_regression:
             grad_t = np.dot(self.h(X)-y, X[:, t])/m
             loss += sum(((self.h(X)-y)**2)/m)
 
+            # Don't regularize the bias (theta0, when t==0), or when there is no regularizer selected or lambda=0.
             if not regularizer or t == 0 or lamb == 0:
                 dthetas[t] = -grad_t*alpha
             elif regularizer in ['l2', 'ridge']:
@@ -59,6 +61,12 @@ class linear_regression:
                 loss = loss+lamb*sum([abs(i) for i in self.theta])
         return (dthetas, loss)
 
-    def normal(self, X, y):
+    def normal(self, X, y, regularizer='l2', lamb=0):
         """Solves the linear ordinary least squares problem by the "normal equation" method."""
-        return np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(X), X)), np.transpose(X)), y)
+        if not regularizer or lamb == 0:
+            return np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), y)
+        elif regularizer in ['l2', 'ridge']:
+            XtX = np.dot(np.transpose(X), X)
+            zero_identity = np.identity(len(X[0]))
+            zero_identity[0, 0] =  0
+            return np.dot(np.dot(np.linalg.pinv(XtX + lamb*zero_identity), np.transpose(X)), y)

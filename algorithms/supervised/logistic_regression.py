@@ -1,4 +1,4 @@
-'''logistic_regression.py: An implementation of logistic regression with L2-regularization and gradient descent optimization.'''
+'''logistic_regression.py: An implementation of regularized logistic regression.'''
 from math import exp, log
 import numpy as np
 from tqdm import tqdm
