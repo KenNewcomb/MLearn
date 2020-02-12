@@ -9,7 +9,7 @@ class linear_regression:
 
     ## fit/predict f(X) ##
 
-    def fit(self, X, y, optimizer='normal', epochs=100, alpha=0.1):
+    def fit(self, X, y, optimizer='normal', epochs=10000, alpha=0.05):
         # Initialize theta, X, y numpy arrays.
         self.theta = np.ones(len(X[0]) + 1)
         X = np.asarray(X)
@@ -18,7 +18,7 @@ class linear_regression:
 
         if optimizer == 'sgd':
             for epoch in range(0, epochs):
-                sleep(1)
+                sleep(0.3)
                 dthetas, loss = self.sgd(X, y, alpha)
                 print("Epoch: {}, Loss: {}".format(epoch, loss))
                 print(self.theta)
