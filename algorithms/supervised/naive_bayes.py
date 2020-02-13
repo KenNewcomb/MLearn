@@ -10,7 +10,7 @@ class naive_bayes():
         self.num_classes = 0
 
     def fit(self, X, y, variant='gaussian'):
-        # Compute number of classes (Classes MUST be integers starting with 0!)
+        # Compute number of classes (Classes must be integers starting with 0)
         self.num_classes = len(set(y))
         self.num_features = len(X[0])
         
@@ -25,7 +25,7 @@ class naive_bayes():
                     xs = []
                     for m in range(len(X)):
                         if y[m] == c:
-                            xs.append(X[i])
+                            xs.append(X[m])
                     pdf = self.gaussian(xs)
                 some_pdfs.append(pdf)
             self.pdfs.append(some_pdfs)

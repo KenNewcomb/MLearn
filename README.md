@@ -28,3 +28,7 @@ A collection of classic machine learning algorithms, written in Python.
 - Variants Gradient Descent
     - Batch gradient descent
     - Stochastic (mini-batch) gradient descent [**in progress**]
+
+## Usage
+
+
