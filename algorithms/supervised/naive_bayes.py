@@ -2,45 +2,47 @@
 from scipy.stats import norm
 import numpy as np
 
-class classifier():
+class naive_bayes():
 
     def __init__(self):
-        pass
+        self.priors = []
+        self.pdfs   = []
+        self.num_classes = 0
 
-    def fit(self, x, y, variant='gaussian'):
-        # Instantiate numpy arrays.
-        X = np.asarray(x)
-        y = np.asarray(y)
-
+    def fit(self, X, y, variant='gaussian'):
         # Compute number of classes (Classes MUST be integers starting with 0!)
-        num_classes = len(set(y[0]))
-        num_features = len(X[0])
+        self.num_classes = len(set(y))
+        self.num_features = len(X[0])
         
         # Compute priors for each class.
-        priors = []
         m = len(y)
-        for c in range(num_classes):
-            priors.append(y.count(c)/m)
+        for c in range(self.num_classes):
+            self.priors.append(y.count(c)/m)
             # Compute products of PDFs for each class.
-            product_of_pdfs = 1
-            for i in num_features:
+            some_pdfs = []
+            for i in range(self.num_features):
                 if variant == 'gaussian':
                     xs = []
-                    for m in range(len(x)):
+                    for m in range(len(X)):
                         if y[m] == c:
-                            xs.append(x[i])
-                        pdf = self.gaussian(xs)
-                    product_of_pdfs *= pdf
-
-
-        pass
-
+                            xs.append(X[i])
+                    pdf = self.gaussian(xs)
+                some_pdfs.append(pdf)
+            self.pdfs.append(some_pdfs)
+        
     def predict(self, x):
-        pass
+        for c in range(self.num_classes):
+            # Predict each class probability
+            total = 1
+            class_pdfs = self.pdfs[c]
+            for feature in range(len(class_pdfs)):
+                total *= class_pdfs[feature].pdf((x[feature]))
+            total *= self.priors[c]
+            print(total)
 
     ## Auxillary f(x) ##
     def gaussian(self, x):
-        mu = mean(x)
-        sigma = std(x)
+        mu = np.mean(x)
+        sigma = np.std(x)
         dist = norm(mu, sigma)
         return dist
