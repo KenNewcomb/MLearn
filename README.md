@@ -1,24 +1,22 @@
 # MLearn
-A collection of classic machine learning algorithms, written in Python.
+A collection of machine learning algorithms, written in Python.
 
 ## Supported Algorithms
 
 ### Supervised Learning
 - Decision Trees [**in progress**]
 - Linear Regression
-    - L1, L2 Regularization 
+    - L1, L2 Regularization
     - Elastic Net Regularization [**in progress**]
-    - Higher order features [**in progress**]
     - Normal Equation Method
 - Logistic Regression
     - L1, L2 Regularization
-    - Higher order features [**in progress**]
 - K-Nearest Neighbors (KNN): regressor, classifier
     - Distance-weighted KNN [**in progress**]
 - Multilayer Perceptron [**planned**]
 - Naive-Bayes methods
     - Gaussian NB
-- Support Vector Machines [**planned**]
+- Support Vector Machines [**in progress**]
 - Ensembles of learners [**planned**]
 
 ### Unsupervised Learning
@@ -29,6 +27,10 @@ A collection of classic machine learning algorithms, written in Python.
     - Batch gradient descent
     - Stochastic (mini-batch) gradient descent [**in progress**]
 
+### Data Preprocessing Tools
+- Feature normalization/scaling
+- Nonlinear feature generation
+
+
 ## Usage
-
-
+Import the desired learning algorithm from `algorithms`. Then, use the `.fit(X, y)` method to train the algorithm, and `.predict(X)` to make predictions.

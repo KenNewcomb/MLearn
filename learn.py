@@ -6,6 +6,7 @@ from datasets.MNIST import MNIST
 from algorithms.supervised.naive_bayes import naive_bayes
 import matplotlib.pyplot as plt
 from tools.visualization.plot import plot2D
+from algorithms.supervised.svm import linear
 
 #X, y = MNIST.load_data()
 #knn = classifier(4)
@@ -27,9 +28,9 @@ plot2D(X, y)
 #log.predict((3,  0))
 
 
-nb = naive_bayes()
-nb.fit(X, y)
-nb.predict((6,0))
+s = linear()
+s.fit(X, y, epochs=5000)
+s.predict((3,0))
 #lin = linear_regression()
 #X = ((0, 1, 1), (4, 1, 1), (0, 2, 1), (0, 3, 1), (0, 4, 1), (3, 0, 1), (9, 0, 1), (1, 2, 1), (9,7, 1))
 #y = (0, 1, 0, 0, 0, 1, 1, 0, 1)
