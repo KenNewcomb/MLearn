@@ -9,8 +9,6 @@ class logistic_regression:
     def __init__(self):
         pass
 
-    ## fit/predict f(x) ##
-
     def fit(self, X, y, epochs=100, alpha=0.1):
         # Initialize theta, X, y numpy arrays.
         self.theta = np.zeros(len(X[0])+1)
@@ -21,9 +19,7 @@ class logistic_regression:
         for epoch in tqdm(range(0, epochs)):
             dthetas, loss = self.sgd(X, y, alpha)
             print("Epoch: {}, Loss: {}".format(epoch, loss))
-            for theta in range(len(self.theta)):
-                self.theta[theta] += dthetas[theta]
-        
+            self.theta += dthetas
 
     def predict(self, X):
         X = np.asarray(X)
@@ -41,7 +37,7 @@ class logistic_regression:
         """Produces logistic regression hypothesis function, h(X) = 1/(1+exp^(-(theta0*X0 + theta1*X1+ theta2*X2...)))"""
         activation = np.dot(X, self.theta)
         return self.logistic(activation)
-            
+
     def logistic(self, x):
         return 1/(1+np.exp(-x))
 
@@ -61,4 +57,4 @@ class logistic_regression:
             elif regularizer in ['l1', 'lasso']:
                 dthetas[t] = -alpha*(grad_t+lamb*(self.theta[t]/abs(self.theta[t])))
                 loss = loss+lamb*sum([abs(i) for i in self.theta])
-        return (dthetas, loss) 
+        return (dthetas, loss)

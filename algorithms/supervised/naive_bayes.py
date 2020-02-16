@@ -10,10 +10,9 @@ class naive_bayes():
         self.num_classes = 0
 
     def fit(self, X, y, variant='gaussian'):
-        # Compute number of classes (Classes must be integers starting with 0)
         self.num_classes = len(set(y))
         self.num_features = len(X[0])
-        
+
         # Compute priors for each class.
         m = len(y)
         for c in range(self.num_classes):
@@ -29,7 +28,7 @@ class naive_bayes():
                     pdf = self.gaussian(xs)
                 some_pdfs.append(pdf)
             self.pdfs.append(some_pdfs)
-        
+
     def predict(self, x):
         for c in range(self.num_classes):
             # Predict each class probability
@@ -42,6 +41,7 @@ class naive_bayes():
 
     ## Auxillary f(x) ##
     def gaussian(self, x):
+        """Generates a normal (Gaussian) distribution based on input feature x."""
         mu = np.mean(x)
         sigma = np.std(x)
         dist = norm(mu, sigma)

@@ -18,9 +18,7 @@ class linear():
         if optimizer == 'sgd':
             loss = 0
             for epoch in range(0, epochs):
-                if epoch % 2000 == 0:
-                    sys.stdout.write('Epoch: {0}, Loss: {1:.2f}, Theta: {2}\r'.format(epoch, loss, self.theta))
-                    sys.stdout.flush()
+                print('Epoch: {0}, Loss: {1:.2f}, Theta: {2}\r'.format(epoch, loss, self.theta))
                 dthetas, loss = self.sgd(X, y, alpha, C)
                 self.theta += dthetas
         print("Training complete.")

@@ -14,33 +14,34 @@ class classifier():
             self.data.append((point[0], point[1]))
 
     def predict(self, x):
-        # Compute distances from all data in dataset.
+        # Compute euclidean distance between input, x, and all data.
         distances = []
         for d in self.data:
             features = d[0]
             label   = d[1]
             distance = 0
+            # d = (dx**2) + (dy**2) + (dz**2) + ...)**0.5
             for feature in range(len(features)):
                 distance += (features[feature] - x[feature])**2
             distance = math.sqrt(distance)
-            
             distances.append((distance, label))
 
-        # Sort them by distance, get first k
+        # Sort them by distance, get first k items.
         distances = sorted(distances, key=lambda x: x[0])[:self.k]
         print("Data points considered:")
         print("Distance\tClass")
         for point in distances:
             print("{0:.2f}      \t{1}".format(point[0], point[1]))
 
+        # KNN --> prediction is the majority vote of k nearest neighbors.
         try:
             prediction = mode([i[1] for i in distances])
-            print("Prediced class: {}".format(prediction))
+            print("Predicted class: {}".format(prediction))
             return prediction
 
-        # If there is more than one mode
+        # If there is more than one mode, rerun with 1 less neighbor
         except statistics.StatisticsError:
-            print("Tie. Rerunning with k-1")
+            print("Tie. Rerunning with k-1...")
             self.k -= 1
             self.predict(x)
 
@@ -64,7 +65,6 @@ class regressor():
             for feature in range(len(features)):
                 distance += (features[feature] - x[feature])**2
             distance = math.sqrt(distance)
-
             distances.append((distance, label))
 
         # Sort them by distance, get first k
