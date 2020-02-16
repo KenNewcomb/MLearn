@@ -17,8 +17,8 @@ from algorithms.supervised.svm import linear
 
 #log = logistic_regression()
 X = ((0, 1), (4, 0.5), (0, 2), (0, 3), (0, 4), (3, 0), (9, 0), (2, 0), (1, 0))
-y = (0, 1, 0, 0, 0, 1, 1, 0, 0)
-plot2D(X, y)
+y = (-1, 1, -1, -1, -1, 1, 1, -1, -1)
+#plot2D(X, y)
 #import numpy as np
 #X = np.asarray(X)
 #y = np.asarray(y)
@@ -29,8 +29,7 @@ plot2D(X, y)
 
 
 s = linear()
-s.fit(X, y, epochs=5000)
-s.predict((3,0))
+s.fit(X, y, epochs=100000, C=10000, alpha=0.0001)
 #lin = linear_regression()
 #X = ((0, 1, 1), (4, 1, 1), (0, 2, 1), (0, 3, 1), (0, 4, 1), (3, 0, 1), (9, 0, 1), (1, 2, 1), (9,7, 1))
 #y = (0, 1, 0, 0, 0, 1, 1, 0, 1)
