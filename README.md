@@ -20,10 +20,10 @@ A collection of machine learning algorithms, written in Python.
 - Ensembles of learners [**planned**]
 
 ### Unsupervised Learning
-- K-Means [**planned**]
+- K-Means Clustering [**planned**]
 
 ### Optimizers
-- Variants Gradient Descent
+- Gradient descent and variants
     - Batch gradient descent
     - Stochastic (mini-batch) gradient descent [**in progress**]
 
