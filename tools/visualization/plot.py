@@ -7,7 +7,7 @@ def plot2D(X, y):
 
     # Split the data into two classes
     for point in range(len(X)):
-        if y[point] == 0:
+        if y[point] == -1:
             red.append(X[point])
         elif y[point] == 1:
             blue.append(X[point])

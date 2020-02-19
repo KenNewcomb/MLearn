@@ -15,9 +15,11 @@ from algorithms.supervised.svm import linear
 #knn.fit(X, y)
 #knn.predict((4, 1))
 
-#log = logistic_regression()
-#X = ((0, 1), (4, 0.5), (0, 2), (0, 3), (0, 4), (3, 0), (9, 0), (2, 0), (1, 0))
-#y = (-1, 1, -1, -1, -1, 1, 1, -1, -1)
+linear_reg = linear_regression()
+X = ((0, 1), (4, 0.5), (0, 2), (0, 3), (0, 4), (3, 0), (9, 0), (2, 0), (1, 0))
+y = (-1, 1, -1, -1, -1, 1, 1, -1, -1)
+linear_reg.fit(X, y, optimizer='normal', alpha=0.001, epochs=30000)
+linear_reg.predict((0, 2))
 #plot2D(X, y)
 #import numpy as np
 #X = np.asarray(X)

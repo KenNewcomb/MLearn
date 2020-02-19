@@ -17,7 +17,7 @@ class linear_regression:
         # Various optimizers available.
         if optimizer == 'sgd':
             for epoch in range(0, epochs):
-                sleep(0.3)
+#                sleep(0.3)
                 dthetas, loss = self.sgd(X, y, alpha)
                 print("Epoch: {}, Loss: {}".format(epoch, loss))
                 print(self.theta)
