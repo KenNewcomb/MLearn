@@ -2,6 +2,7 @@
 # TODO Write a better description of the class
 import numpy as np
 from time import sleep
+import sys
 
 class linear_regression:
 
@@ -17,13 +18,14 @@ class linear_regression:
         if optimizer == 'sgd':
             for epoch in range(0, epochs):
                 #sleep(0.3)
-                dthetas, loss = self.sgd(X, y, alpha)
-                print("Epoch: {}, Loss: {}".format(epoch, loss))
-                print(self.theta)
-                self.theta += dthetas
+                dthetas, loss = self.sgd(X, y)
+                sys.stdout.write("\rEpoch: {}, Loss: {}, Thetas: {}".format(epoch, loss, self.theta))
+                sys.stdout.flush()
+                self.theta += alpha*dthetas
         elif optimizer == 'normal':
             self.theta = self.normal(X, y)
-            print(self.theta)
+
+        print(self.theta)
 
     def predict(self, X):
         X = np.asarray(X)
@@ -37,28 +39,25 @@ class linear_regression:
         """Produces linear regression hypothesis function, h(X) = theta0*X0 + theta1*X1 + theta2*X2..."""
         return np.dot(X, self.theta)
 
-    def sgd(self, X, y, alpha, regularizer='l2', lamb=0):
+    def sgd(self, X, y, regularizer='l2', lamb=1):
         '''Gradient descent algorithm.'''
         dthetas = [0 for i in range(len(X[0]))]
         m = len(X) # Number of training eXamples
         loss  = 0
-        for t in range(0, len(dthetas)):
-            error = self.h(X) - y
-            grad_t = np.dot(error, X[:, t])/m
-            loss += sum((error**2)/m)
-
-            # Don't regularize the bias (t==0), or when there is no regularizer selected or lambda=0.
-            if not regularizer or t == 0 or lamb == 0:
-                dthetas[t] = -grad_t*alpha
-            elif regularizer in ['l2', 'ridge']:
-                dthetas[t] = -alpha*(grad_t+lamb*self.theta[t])
-                loss = loss+lamb*sum([i**2 for i in self.theta])
-            elif regularizer in ['l1', 'lasso']:
-                dthetas[t] = -alpha*(grad_t+lamb*(self.theta[t]/abs(self.theta[t])))
-                loss = loss+lamb*sum([abs(i) for i in self.theta])
+        error = self.h(X) - y
+        grad = np.dot(error, X)/m
+        dthetas = -grad
+        loss += sum((error**2)/m)
+        if regularizer in ['l2', 'ridge']:
+            dthetas += (lamb/m)*self.theta
+            loss += (lamb/m)*sum([i**2 for i in self.theta[1:]])
+        elif regularizer in ['l1', 'lasso']:
+            dthetas += (lamb/m)*(self.theta/abs(self.theta))
+            loss += (lamb/m)*sum([abs(i) for i in self.theta[1:]])
+        dthetas[0] = -grad[0] # Don't regularize bias (theta[0])
         return (dthetas, loss)
 
-    def normal(self, X, y, regularizer='l2', lamb=0):
+    def normal(self, X, y, regularizer='l2', lamb=1):
         """Solves the linear ordinary least squares problem by the normal equation."""
         # best fitting thetas = [Xt*X]^-1*Xt*y
         Xt = np.transpose(X)
