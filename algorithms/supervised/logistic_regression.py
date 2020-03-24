@@ -3,6 +3,7 @@ from math import exp, log
 import numpy as np
 from tqdm import tqdm
 from time import sleep
+import sys
 
 class logistic_regression:
 
@@ -17,9 +18,10 @@ class logistic_regression:
         y = np.asarray(y)
 
         for epoch in tqdm(range(0, epochs)):
-            dthetas, loss = self.sgd(X, y, alpha)
-            print("Epoch: {}, Loss: {}".format(epoch, loss))
-            self.theta += dthetas
+            dthetas, loss = self.sgd(X, y)
+            sys.stdout.write("\rEpoch: {}, Loss: {}, Thetas: {}".format(epoch, loss, self.theta))
+            sys.stdout.flush()
+            self.theta += alpha*dthetas
 
     def predict(self, X):
         X = np.asarray(X)
@@ -41,20 +43,19 @@ class logistic_regression:
     def logistic(self, x):
         return 1/(1+np.exp(-x))
 
-    def sgd(self, X, y, alpha, regularizer=None, lamb=0):
+    def sgd(self, X, y, regularizer=None, lamb=0):
         '''Gradient descent algorithm.'''
         dthetas = [0 for i in range(len(X[0]))]
         m = len(X)
         loss = 0
-        for t in range(0, len(dthetas)):
-            grad_t = np.dot(self.h(X)-y, X[:, t])/m
-            loss  += (np.dot(-y,np.log(self.h(X))) + np.dot(-(1-y), np.log(1-self.h(X))))/m
-            if not regularizer or t == 0 or lamb == 0:
-                dthetas[t] = -grad_t*alpha
-            elif regularizer in ['l2', 'ridge']:
-                dthetas[t] = -1*alpha*(grad_t+lamb*self.theta[t])
-                loss = loss+lamb*sum([i**2 for i in self.theta])
-            elif regularizer in ['l1', 'lasso']:
-                dthetas[t] = -alpha*(grad_t+lamb*(self.theta[t]/abs(self.theta[t])))
-                loss = loss+lamb*sum([abs(i) for i in self.theta])
+        grad = np.dot(self.h(X)-y, X)/m
+        loss  += (np.dot(-y,np.log(self.h(X))) + np.dot(-(1-y), np.log(1-self.h(X))))/m
+        dthetas = -grad
+        if regularizer in ['l2', 'ridge']:
+            dthetas += (lamb/m)*self.theta
+            loss += (lamb/m)*sum([i**2 for i in self.theta[1:]])
+        elif regularizer in ['l1', 'lasso']:
+            dthetas += (lamb/m)*(self.theta/abs(self.theta))
+            loss += (lamb/m)*sum([abs(i) for i in self.theta[1:]])
+        dthetas[0] = -grad[0] # Don't regularize bias (theta[0])
         return (dthetas, loss)
