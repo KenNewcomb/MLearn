@@ -26,6 +26,9 @@ A collection of machine learning algorithms, written in Python.
 - Gradient descent and variants
     - Batch gradient descent
     - Stochastic (mini-batch) gradient descent [**in progress**]
+- Adam
+- RMSProp
+- Momentum
 
 ### Data Preprocessing Tools
 - Feature normalization/scaling

@@ -1,6 +1,7 @@
 from math import mode
 class Voting:
-    
+    # TODO Describe what this class does
+
     def __init__(self, models):
         self.models = models
 
