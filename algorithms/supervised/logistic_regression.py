@@ -53,9 +53,9 @@ class logistic_regression:
         dthetas = -grad
         if regularizer in ['l2', 'ridge']:
             dthetas += (lamb/m)*self.theta
-            loss += (lamb/m)*sum([i**2 for i in self.theta])
+            loss += (lamb/m)*sum([i**2 for i in self.theta[1:]])
         elif regularizer in ['l1', 'lasso']:
             dthetas += (lamb/m)*(self.theta/abs(self.theta))
-            loss += (lamb/m)*sum([abs(i) for i in self.theta])
+            loss += (lamb/m)*sum([abs(i) for i in self.theta[1:]])
         dthetas[0] = -grad[0] # Don't regularize bias (theta[0])
         return (dthetas, loss)
