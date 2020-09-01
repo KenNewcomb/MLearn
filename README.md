@@ -5,7 +5,7 @@ A collection of machine learning algorithms, written in Python.
 
 ### Supervised Learning
 - [Decision Trees](https://en.wikipedia.org/wiki/Decision_tree_learning) [**in progress**]
-- [Linear Regression](https://en.wikipedia.org/wiki/Linear_regression
+- [Linear Regression](https://en.wikipedia.org/wiki/Linear_regression)
     - [L1, L2 Regularization](https://en.wikipedia.org/wiki/Regularization_(mathematics))
     - Elastic Net Regularization [**in progress**]
     - Normal Equation Method
