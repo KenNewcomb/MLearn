@@ -43,7 +43,8 @@ class classifier():
         except statistics.StatisticsError:
             print("Tie. Rerunning with k-1...")
             self.k -= 1
-            self.predict(x)
+            return self.predict(x)
+            
 
 class regressor():
 
