@@ -2,3 +2,4 @@
 env
 *.csv
 *.swp
+cb.sh
