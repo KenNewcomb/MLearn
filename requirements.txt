@@ -1,2 +1,2 @@
 pkg-resources==0.0.0
-tqdm==4.42.1
+tqdm==4.66.3
