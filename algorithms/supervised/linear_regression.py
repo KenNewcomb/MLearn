@@ -66,12 +66,12 @@ class linear_regression:
             X (numpy.ndarray): Input features for which predictions are made.
 
         Returns:
-            None
+            numpy.ndarray: Predictions.
         """
         X = np.asarray(X)
-        X = np.insert(X, 0, 1)
+        X = np.insert(X, 0, 1, axis=1)  # Add bias term to X
         prediction = self.h(X)
-        print("Prediction: ", prediction)
+        return prediction
 
     def sgd(self, X, y, regularizer='l2', lamb=1):
         """
@@ -81,25 +81,25 @@ class linear_regression:
             X (numpy.ndarray): Input features (training data).
             y (numpy.ndarray): Target values (labels).
             regularizer (str, optional): Regularization type ('l2' or None, default is 'l2').
-            lamb (float, optional): Regularization parameter (default is 0).
+            lamb (float, optional): Regularization parameter (default is 1).
 
         Returns:
             tuple: Gradient and loss.
         """
         dthetas = [0 for i in range(len(X[0]))]
-        m = len(X) # Number of training eXamples
-        loss  = 0
+        m = len(X)  # Number of training examples
+        loss = 0
         error = self.h(X) - y
-        grad = np.dot(error, X)/m
+        grad = np.dot(error, X) / m
         dthetas = -grad
-        loss += sum((error**2)/m)
-        if regularizer in ['l2', 'ridge']:
-            dthetas += (lamb/m)*self.theta
-            loss += (lamb/m)*sum([i**2 for i in self.theta[1:]])
-        elif regularizer in ['l1', 'lasso']:
-            dthetas += (lamb/m)*(self.theta/abs(self.theta))
-            loss += (lamb/m)*sum([abs(i) for i in self.theta[1:]])
-        dthetas[0] = -grad[0] # Don't regularize bias (theta[0])
+        loss += sum((error**2) / m)
+        if regularizer in ['l2', 'ridge'] and lamb != 0:
+            dthetas += (lamb / m) * self.theta
+            loss += (lamb / m) * sum([i**2 for i in self.theta[1:]])
+        elif regularizer in ['l1', 'lasso'] and lamb != 0:
+            dthetas += (lamb / m) * (self.theta / abs(self.theta))
+            loss += (lamb / m) * sum([abs(i) for i in self.theta[1:]])
+        dthetas[0] = -grad[0]  # Don't regularize bias (theta[0])
         return (dthetas, loss)
 
     def normal(self, X, y, regularizer='l2', lamb=1):
