@@ -25,12 +25,12 @@ class logistic_regression:
 
     def predict(self, X):
         X = np.asarray(X)
-        X = np.insert(X, 0, 1)
+        X = np.insert(X, 0, 1, axis=1)  # Add bias term to X
         prob = self.h(X)
         print("Probability:", prob)
         if prob > 0.5:
             print("Predicted Class: 1")
-        elif prob < 0.5:
+        else:
             print("Predicted Class: 0")
 
     ## auxillary f(x) ##
@@ -51,10 +51,10 @@ class logistic_regression:
         grad = np.dot(self.h(X)-y, X)/m
         loss  += (np.dot(-y,np.log(self.h(X))) + np.dot(-(1-y), np.log(1-self.h(X))))/m
         dthetas = -grad
-        if regularizer in ['l2', 'ridge']:
+        if regularizer in ['l2', 'ridge'] and lamb != 0:
             dthetas += (lamb/m)*self.theta
             loss += (lamb/m)*sum([i**2 for i in self.theta[1:]])
-        elif regularizer in ['l1', 'lasso']:
+        elif regularizer in ['l1', 'lasso'] and lamb != 0:
             dthetas += (lamb/m)*(self.theta/abs(self.theta))
             loss += (lamb/m)*sum([abs(i) for i in self.theta[1:]])
         dthetas[0] = -grad[0] # Don't regularize bias (theta[0])
