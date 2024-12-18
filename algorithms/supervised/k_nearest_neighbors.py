@@ -41,9 +41,13 @@ class classifier():
 
         # If there is more than one mode, rerun with 1 less neighbor
         except statistics.StatisticsError:
-            print("Tie. Rerunning with k-1...")
-            self.k -= 1
-            return self.predict(x)
+            if self.k > 1:
+                print("Tie. Rerunning with k-1...")
+                self.k -= 1
+                return self.predict(x)
+            else:
+                print("Tie. Unable to resolve with k=1.")
+                return None
             
 
 class regressor():
