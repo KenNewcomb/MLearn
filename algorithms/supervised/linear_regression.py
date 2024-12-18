@@ -35,20 +35,26 @@ class linear_regression:
         Returns:
             None
         """
-
-        self.theta = np.ones(len(X[0]) + 1)
+        # Ensure X and y are numpy arrays
         X = np.asarray(X)
-        X = np.insert(X, 0, 1, axis=1)
         y = np.asarray(y)
 
+        # Initialize theta
+        self.theta = np.ones(X.shape[1] + 1)
+
+        # Add bias term to X
+        X = np.insert(X, 0, 1, axis=1)
+
         if optimizer == 'sgd':
-            for epoch in range(0, epochs):
+            for epoch in range(epochs):
                 dthetas, loss = self.sgd(X, y)
-                sys.stdout.write("\rEpoch: {}, Loss: {}, Thetas: {}".format(epoch, loss, self.theta))
-                sys.stdout.flush()
+                if epoch % 100 == 0:  # Print every 100 epochs
+                    print(f"Epoch: {epoch}, Loss: {loss}, Thetas: {self.theta}")
                 self.theta += alpha * dthetas
         elif optimizer == 'normal':
             self.theta = self.normal(X, y)
+        else:
+            raise ValueError("Invalid optimizer. Choose 'sgd' or 'normal'.")
 
         print("Parameters: ", self.theta)
 
