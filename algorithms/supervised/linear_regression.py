@@ -80,27 +80,28 @@ class linear_regression:
         Parameters:
             X (numpy.ndarray): Input features (training data).
             y (numpy.ndarray): Target values (labels).
-            regularizer (str, optional): Regularization type ('l2' or None, default is 'l2').
+            regularizer (str, optional): Regularization type ('l2', 'ridge', 'l1', 'lasso' or None, default is 'l2').
             lamb (float, optional): Regularization parameter (default is 1).
 
         Returns:
             tuple: Gradient and loss.
         """
-        dthetas = [0 for i in range(len(X[0]))]
         m = len(X)  # Number of training examples
-        loss = 0
-        error = self.h(X) - y
-        grad = np.dot(error, X) / m
-        dthetas = -grad
-        loss += sum((error**2) / m)
+        error = self.h(X) - y  # Calculate error
+        grad = np.dot(error, X) / m  # Calculate gradient
+        dthetas = -grad  # Gradient descent step
+        loss = np.sum((error**2) / m)  # Calculate loss
+
+        # Apply regularization if specified
         if regularizer in ['l2', 'ridge'] and lamb != 0:
-            dthetas += (lamb / m) * self.theta
-            loss += (lamb / m) * sum([i**2 for i in self.theta[1:]])
+            dthetas += (lamb / m) * self.theta  # L2 regularization
+            loss += (lamb / m) * np.sum(self.theta[1:]**2)  # Add regularization to loss
         elif regularizer in ['l1', 'lasso'] and lamb != 0:
-            dthetas += (lamb / m) * (self.theta / abs(self.theta))
-            loss += (lamb / m) * sum([abs(i) for i in self.theta[1:]])
+            dthetas += (lamb / m) * np.sign(self.theta)  # L1 regularization
+            loss += (lamb / m) * np.sum(np.abs(self.theta[1:]))  # Add regularization to loss
+
         dthetas[0] = -grad[0]  # Don't regularize bias (theta[0])
-        return (dthetas, loss)
+        return dthetas, loss
 
     def normal(self, X, y, regularizer='l2', lamb=1):
         """
