@@ -12,7 +12,7 @@ class linear_regression:
         theta (numpy.ndarray): Coefficients of the linear regression model.
 
     Methods:
-        fit(X, y, optimizer='normal', epochs=10000, alpha=0.05):
+        fit(X, y, optimizer='normal', epochs=10000, alpha=0.05, regularizer=None, lamb=1):
             Train the linear regression model using the provided data.
 
         predict(X):
@@ -29,6 +29,8 @@ class linear_regression:
             optimizer (str, optional): Optimization algorithm (default is 'normal').
             epochs (int, optional): Number of training epochs (default is 10000).
             alpha (float, optional): Learning rate (default is 0.05).
+            regularizer (str, optional): Regularization type ('l2', 'ridge', 'l1', 'lasso' or None, default is None).
+            lamb (float, optional): Regularization parameter (default is 1).
 
         Returns:
             None
@@ -99,34 +101,29 @@ class linear_regression:
         dthetas[0] = -grad[0]  # Don't regularize bias (theta[0])
         return dthetas, loss
 
-    def normal(self, X, y, regularizer='None', lamb=0):
+    def normal(self, X, y, regularizer=None, lamb=0):
         """
         Solve the linear ordinary least squares problem using the normal equation.
 
         Parameters:
             X (numpy.ndarray): Input features (training data).
             y (numpy.ndarray): Target values (labels).
-            regularizer (str, optional): Regularization type ('l2', 'ridge', or None, default is 'l2').
-            lamb (float, optional): Regularization parameter (default is 1).
+            regularizer (str, optional): Regularization type ('l2', 'ridge', or None, default is None).
+            lamb (float, optional): Regularization parameter (default is 0).
 
         Returns:
             numpy.ndarray: Coefficients of the linear regression model.
         """
-        # Calculate the best-fitting thetas using the normal equation:
-        # thetas = (Xt*X)^(-1) * Xt * y
         Xt = np.transpose(X)
 
         if not regularizer or lamb == 0:
-            # If no regularization or lambda is 0, use the pseudo-inverse of Xt*X
             inverse_xtx = np.linalg.pinv(np.dot(Xt, X))
             return np.dot(np.dot(inverse_xtx, Xt), y)
         elif regularizer in ['l2', 'ridge']:
-            # For L2 regularization, add the regularization term to Xt*X
-            XtX = np.dot(np.transpose(X), X)
-            zero_identity = np.identity(len(X[0]))
-            zero_identity[0, 0] =  0
-            # Use the pseudo-inverse of the modified XtX matrix
-            return np.dot(np.dot(np.linalg.pinv(XtX + lamb*zero_identity), Xt), y)
+            XtX = np.dot(Xt, X)
+            identity = np.identity(X.shape[1])
+            identity[0, 0] = 0  # Do not regularize the bias term
+            return np.dot(np.dot(np.linalg.pinv(XtX + lamb * identity), Xt), y)
 
     def h(self, X):
         """Produces linear regression hypothesis function, h(X) = theta0*X0 + theta1*X1 + theta2*X2..."""
