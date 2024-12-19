@@ -1,7 +1,5 @@
 # linear_regression.py: An implementation of regularized linear regression.
 import numpy as np
-from time import sleep
-import sys
 
 class linear_regression:
     """
@@ -21,7 +19,7 @@ class linear_regression:
             Make predictions using the trained model.
 
     """
-    def fit(self, X, y, optimizer='normal', epochs=10000, alpha=0.05):
+    def fit(self, X, y, optimizer='normal', epochs=10000, alpha=0.05, regularizer=None, lamb=1):
         """
         Train the linear regression model.
 
@@ -40,19 +38,17 @@ class linear_regression:
         y = np.asarray(y)
 
         # Initialize theta
-        self.theta = np.ones(X.shape[1] + 1)
+        self.theta = np.zeros(X.shape[1] + 1)
 
         # Add bias term to X
         X = np.insert(X, 0, 1, axis=1)
 
         if optimizer == 'sgd':
             for epoch in range(epochs):
-                dthetas, loss = self.sgd(X, y)
-                if epoch % 100 == 0:  # Print every 100 epochs
-                    print(f"Epoch: {epoch}, Loss: {loss}, Thetas: {self.theta}")
+                dthetas, loss = self.sgd(X, y, regularizer, lamb)
                 self.theta += alpha * dthetas
         elif optimizer == 'normal':
-            self.theta = self.normal(X, y)
+            self.theta = self.normal(X, y, regularizer, lamb)
         else:
             raise ValueError("Invalid optimizer. Choose 'sgd' or 'normal'.")
 
@@ -73,7 +69,7 @@ class linear_regression:
         prediction = self.h(X)
         return prediction
 
-    def sgd(self, X, y, regularizer='l2', lamb=1):
+    def sgd(self, X, y, regularizer='None', lamb=0):
         """
         Perform stochastic gradient descent optimization.
 
@@ -103,7 +99,7 @@ class linear_regression:
         dthetas[0] = -grad[0]  # Don't regularize bias (theta[0])
         return dthetas, loss
 
-    def normal(self, X, y, regularizer='l2', lamb=1):
+    def normal(self, X, y, regularizer='None', lamb=0):
         """
         Solve the linear ordinary least squares problem using the normal equation.
 
